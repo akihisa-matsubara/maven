@@ -1,37 +1,43 @@
-## Welcome to GitHub Pages
+## Maven repository on Github
 
-You can use the [editor on GitHub](https://github.com/akihisa-matsubara/maven/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Github Pagesを利用したMavenリポジトリー  
+https://raw.githubusercontent.com/akihisa-matsubara/maven/mvn-repo/  
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### GitHubアカウントの設定
+次に GitHub のアカウント情報を設定します。  
+ファイル `~/.m2/settings.xml` に、次の例のように  
+`<server>` の情報を追加します。  
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```xml
+<settings>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>YOUR-USERNAME</username>
+      <password>YOUR-PASSWORD</password>
+    </server>
+  </servers>
+</settings>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### pom.xml への設定
+```xml
+    <properties>
+        <!-- maven repository settings -->
+        <github.global.server>github</github.global.server>
+        <git.repositoryOwner>akihisa-matsubara</git.repositoryOwner>
+        <git.repositoryName>maven</git.repositoryName>
+        <git.branchName>mvn-repo</git.branchName>
+    </properties>
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/akihisa-matsubara/maven/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+    <repositories>
+        <repository>
+            <id>github-maven</id>
+            <url>https://raw.githubusercontent.com/${git.repositoryOwner}/${git.repositoryName}/${git.branchName}/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+```
