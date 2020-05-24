@@ -3,21 +3,50 @@
 Github Pagesを利用したMavenリポジトリー  
 https://raw.githubusercontent.com/akihisa-matsubara/maven/mvn-repo/  
 
+### 利用法
+ファイル `~/.m2/settings.xml` に、次の例のように  
+`<repository>` の情報を追加します。  
+```xml
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>github</id>
+          <name>Sample Maven Repository</name>
+          <url>https://raw.githubusercontent.com/akihisa-matsubara/maven/mvn-repo</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+```
+
+## リリース用設定
 ### GitHubアカウントの設定
 次に GitHub のアカウント情報を設定します。  
 ファイル `~/.m2/settings.xml` に、次の例のように  
 `<server>` の情報を追加します。  
 
 ```xml
-<settings>
-  <servers>
-    <server>
-      <id>github</id>
-      <username>YOUR-USERNAME</username>
-      <password>YOUR-PASSWORD</password>
-    </server>
-  </servers>
-</settings>
+  <settings>
+    <servers>
+      <server>
+        <id>github</id>
+        <username>YOUR-USERNAME</username>
+        <password>TOKEN</password>
+      </server>
+    </servers>
+  </settings>
 ```
 
 ### pom.xml への設定
