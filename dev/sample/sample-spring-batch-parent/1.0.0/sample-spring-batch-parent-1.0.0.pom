@@ -1,0 +1,270 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>dev.sample</groupId>
+    <artifactId>sample-spring-batch-parent</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+    <name>sample-spring-batch-parent</name>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>sample-spring-batch-core-jar</module>
+        <module>sample-spring-batch-jar</module>
+    </modules>
+
+    <properties>
+        <project.lib.path>${project.basedir}/lib</project.lib.path>
+        <assertj.assertions.target.dir>src/test/assertions</assertj.assertions.target.dir>
+        <!-- MyBatis Generator Setting -->
+        <mybatis.generator.configurationFile>${project.basedir}/tools/mybatis-generator/generatorConfig.xml</mybatis.generator.configurationFile>
+        <mybatis.generator.overwrite>true</mybatis.generator.overwrite>
+
+        <!-- maven repository settings -->
+        <github.global.server>github</github.global.server>
+        <git.repositoryOwner>akihisa-matsubara</git.repositoryOwner>
+        <git.repositoryName>maven</git.repositoryName>
+        <git.branchName>mvn-repo</git.branchName>
+
+        <!-- sonar settings -->
+        <sonar.organization>akihisa-matsubara</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+        <!-- version -->
+        <sample-common-util.version>1.0.0</sample-common-util.version>
+        <sample-test-util.version>1.0.0</sample-test-util.version>
+        <mybatis-spring.version>2.0.1</mybatis-spring.version>
+        <dbSetup.version>2.1.0</dbSetup.version>
+        <mybatis-generator.version>1.3.7</mybatis-generator.version>
+        <assertj-assertions-generator.version>2.2.0</assertj-assertions-generator.version>
+        <github-site-maven-plugin>0.12</github-site-maven-plugin>
+
+        <!-- sonar plugin version -->
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>github-maven</id>
+            <url>https://raw.githubusercontent.com/${git.repositoryOwner}/${git.repositoryName}/${git.branchName}/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>dev.sample</groupId>
+                <artifactId>sample-common-util-jar</artifactId>
+                <version>${sample-common-util.version}</version>
+            </dependency>
+            <!-- OSS Library -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring.version}</version>
+            </dependency>
+
+            <!-- Test Library -->
+            <dependency>
+                <groupId>dev.sample</groupId>
+                <artifactId>sample-test-util-jar</artifactId>
+                <version>${sample-test-util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ninja-squad</groupId>
+                <artifactId>DbSetup</artifactId>
+                <version>${dbSetup.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>dev.sample</groupId>
+            <artifactId>sample-common-util-jar</artifactId>
+        </dependency>
+
+        <!-- OSS Library -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <!-- provided scope -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- test scope -->
+        <dependency>
+            <groupId>dev.sample</groupId>
+            <artifactId>sample-test-util-jar</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.ninja-squad</groupId>
+            <artifactId>DbSetup</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Boot devtools (not used in batch) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.mybatis.generator</groupId>
+                    <artifactId>mybatis-generator-maven-plugin</artifactId>
+                    <version>${mybatis-generator.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.assertj</groupId>
+                    <artifactId>assertj-assertions-generator-maven-plugin</artifactId>
+                    <version>${assertj-assertions-generator.version}</version>
+                    <executions>
+                        <execution>
+                            <id>generate-assertions-test-sources</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>generate-assertions</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <excludes>
+                            <param>.*Abstract.*</param>
+                            <param>.*Base.*</param>
+                            <param>.*Listener.*</param>
+                        </excludes>
+                        <targetDir>${project.basedir}/src/test/assertions</targetDir>
+                        <cleanTargetDir>true</cleanTargetDir>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>junit</groupId>
+                            <artifactId>junit</artifactId>
+                            <version>${junit.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <!-- sonar -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
+                </plugin>
+                <!-- deploy -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <configuration>
+                        <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/${git.branchName}</altDeploymentRepository>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>com.github.github</groupId>
+                    <artifactId>site-maven-plugin</artifactId>
+                    <version>${github-site-maven-plugin}</version>
+                    <configuration>
+                        <message>Maven artifacts for ${project.name}/${project.artifactId}/${project.version}</message>
+                        <noJekyll>true</noJekyll>
+                        <outputDirectory>${project.build.directory}/${git.branchName}</outputDirectory>
+                        <branch>refs/heads/${git.branchName}</branch>
+                        <includes>
+                            <include>**/*</include>
+                        </includes>
+                        <repositoryName>${git.repositoryName}</repositoryName>
+                        <repositoryOwner>${git.repositoryOwner}</repositoryOwner>
+                        <merge>true</merge>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>site</goal>
+                            </goals>
+                            <phase>deploy</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
