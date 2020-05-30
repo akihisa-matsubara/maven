@@ -24,6 +24,18 @@
         <git.repositoryName>maven</git.repositoryName>
         <git.branchName>mvn-repo</git.branchName>
 
+        <!-- sonar settings -->
+        <sonar.organization>akihisa-matsubara</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+        <!-- test server settings -->
+        <test.server.http.port>9080</test.server.http.port>
+        <test.server.https.port>9443</test.server.https.port>
+        <runtime>wlp</runtime>
+        <runtimeGroupId>com.ibm.websphere.appserver.runtime</runtimeGroupId>
+        <runtimeArtifactId>wlp-javaee7</runtimeArtifactId>
+        <runtimeVersion>${was-liberty.version}</runtimeVersion>
+
         <!-- sample version -->
         <sample-framework-core.version>1.0.0</sample-framework-core.version>
         <sample-framework-rest.version>1.0.0</sample-framework-rest.version>
@@ -86,23 +98,14 @@
         <spotbugs.version>4.0.0-RC1</spotbugs.version>
         <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
 
-        <!-- test server settings -->
-        <test.server.http.port>9080</test.server.http.port>
-        <test.server.https.port>9443</test.server.https.port>
-        <runtime>wlp</runtime>
-        <runtimeGroupId>com.ibm.websphere.appserver.runtime</runtimeGroupId>
-        <runtimeArtifactId>wlp-javaee7</runtimeArtifactId>
-        <runtimeVersion>${was-liberty.version}</runtimeVersion>
+        <!-- sonar plugin version -->
+        <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
     </properties>
 
     <repositories>
         <repository>
             <id>github-maven</id>
-            <url>https://raw.github.com/${git.repositoryOwner}/${git.repositoryName}/${git.branchName}/</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
+            <url>https://raw.githubusercontent.com/akihisa-matsubara/maven/mvn-repo/</url>
         </repository>
     </repositories>
 
@@ -572,6 +575,13 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco-maven-plugin.version}</version>
+                </plugin>
+
+                <!-- sonar -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar-maven-plugin.version}</version>
                 </plugin>
 
                 <!-- deploy -->
