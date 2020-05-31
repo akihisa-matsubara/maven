@@ -16,4 +16,10 @@
         <module>sample-web-test-util-jar</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>github-maven</id>
+            <url>https://raw.githubusercontent.com/akihisa-matsubara/maven/mvn-repo/</url>
+        </repository>
+    </repositories>
 </project>
